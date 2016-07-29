@@ -560,28 +560,6 @@ class PGoApi:
         caught_pokemon = self.get_caught_pokemons(inventory_items)
         for pokemons in caught_pokemon.values():
             if len(pokemons) > self.MIN_SIMILAR_POKEMON:
-                pokemons = sorted(pokemons, key=lambda x: (x.cp, x.iv), reverse=True)
-                # keep the first pokemon....
-                for pokemon in pokemons[self.MIN_SIMILAR_POKEMON:]:
-                    if self.is_pokemon_eligible_for_transfer(pokemon):
-                        self.log.info("Releasing pokemon: %s", pokemon)
-                        self.release_pokemon(pokemon_id=pokemon.id)
-                        release_res = self.call()['responses']['RELEASE_POKEMON']
-                        status = release_res.get('result', -1)
-                        if status == 1:
-                            self.log.info("Successfully Released Pokemon %s", pokemon)
-                        else:
-                            self.log.debug("Failed to release pokemon %s, %s", pokemon, release_res)
-                            self.log.info("Failed to release Pokemon %s", pokemon)
-                        sleep(3)
-
-    def is_pokemon_eligible_for_transfer(self, pokemon):
-        return (pokemon.pokemon_id in self.throw_pokemon_ids and not pokemon.is_favorite) \
-               or (not pokemon.is_favorite and
-                  # pokemon.iv < self.MIN_KEEP_IV and
-                  # pokemon.cp < self.KEEP_CP_OVER and
-                   pokemon.is_valid_pokemon() and
-                   pokemon.pokemon_id not in self.keep_pokemon_ids)
                 # highest lvl pokemon first
                 sorted_pokemons = sorted(pokemons, key=self.pokemon_lvl, reverse=True)
                 for pokemon in sorted_pokemons[self.MIN_SIMILAR_POKEMON:]:
