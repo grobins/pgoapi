@@ -1,3 +1,8 @@
+googlemapsapi.txt
+config.json
+configBACK.json
+parsejson.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -211,7 +211,6 @@ class PGoApi:
             self.log.debug(self.cleanup_inventory(self.inventory.inventory_items))
             self.attempt_evolve(self.inventory.inventory_items)
             self.cleanup_pokemon(self.inventory.inventory_items)
-
         self._heartbeat_number += 1
         return res
 
@@ -435,8 +434,8 @@ class PGoApi:
     def is_pokemon_eligible_for_transfer(self, pokemon):
         return (pokemon.pokemon_id in self.throw_pokemon_ids and not pokemon.is_favorite) \
                or (not pokemon.is_favorite and
-                   pokemon.iv < self.MIN_KEEP_IV and
-                   pokemon.cp < self.KEEP_CP_OVER and
+                  # pokemon.iv < self.MIN_KEEP_IV and
+                  # pokemon.cp < self.KEEP_CP_OVER and
                    pokemon.is_valid_pokemon() and
                    pokemon.pokemon_id not in self.keep_pokemon_ids)
 
